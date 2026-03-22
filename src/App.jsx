@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRequestGetTodos, useRequestGetTodosJsonServer } from './hooks';
 import {
 	requestAddNewTodoJsonServer,
@@ -12,6 +12,7 @@ import {
 import { List, Loader, Title, ConfirmModal, PromptModal, Field } from './components';
 import './App.css';
 import stylesTodoList from './utils/styles/TodoList.module.css';
+import { TODOS_URL_JSON_SERVER } from './constants/constants';
 
 export const App = () => {
 	const { todos, isLoading } = useRequestGetTodos();
@@ -19,11 +20,18 @@ export const App = () => {
 	const [isModalPromptOpen, setIsModalPromptOpen] = useState(false);
 	const [isModalEditPromptOpen, setIsModalEditPromptOpen] = useState(false);
 	const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
+	const [isModalConfirmDeleteAllOpen, setIsModalConfirmDeleteAllOpen] = useState(false);
 	const [isSearchFieldOpen, setIsSearchFieldOpen] = useState(false);
 	const [idToDelete, setIdToDelete] = useState(null);
 	const [idToEdit, setIdToEdit] = useState(null);
-	const [searchTask, setSearchTask] = useState(null);
+	const [searchTask, setSearchTask] = useState('');
 	const [isSorted, setIsSorted] = useState(false);
+
+	const searchFieldRef = useRef(null);
+
+	useEffect(() => {
+		if (isSearchFieldOpen) searchFieldRef.current.focus();
+	}, [isSearchFieldOpen]);
 
 	const handleAddTask = (title) => {
 		requestAddNewTodoJsonServer(title);
@@ -64,11 +72,28 @@ export const App = () => {
 	const onSortHandleClick = () => setIsSorted((prev) => !prev);
 
 	const getPrintArr = () => {
-		const sorted = isSorted ? todosJsonServer.toSorted((a, b) => a.title.localeCompare(b.title)) : todosJsonServer;
+		const sorted = isSorted
+			? todosJsonServer.toSorted((a, b) =>
+					a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }),
+				)
+			: todosJsonServer;
+		const filterCompleted = sorted.toSorted((a, b) => a.completed - b.completed);
 
-		return searchTask && isSearchFieldOpen
-			? sorted.filter((item) => item.title.toLowerCase().includes(searchTask.toLowerCase()))
-			: sorted;
+		return searchTask && isSearchFieldOpen && filterCompleted
+			? filterCompleted.filter((item) => item.title.toLowerCase().includes(searchTask.toLowerCase()))
+			: filterCompleted;
+	};
+
+	const handleClearTodos = () => {
+		setIsModalConfirmDeleteAllOpen(true);
+	};
+
+	const confirmedDeleteAll = () => {
+		Promise.all(todosJsonServer.map((item) => fetch(`${TODOS_URL_JSON_SERVER}/${item.id}`, { method: 'DELETE' })))
+			.then(() => console.log('Все задачи удалены'))
+			.then(() => setRefreshList((prev) => !prev))
+			.catch((error) => console.log('Ошибка очистки списка задач', error))
+			.finally(() => setIsModalConfirmDeleteAllOpen(false));
 	};
 
 	return (
@@ -123,9 +148,12 @@ export const App = () => {
 								onAddClick={() => setIsModalPromptOpen(true)}
 								onSearchClick={onSearchClick}
 								onSortHandleClick={onSortHandleClick}
+								isSorted={isSorted}
+								onClearAllTodos={handleClearTodos}
 							/>
 							{isSearchFieldOpen && (
 								<Field
+									ref={searchFieldRef}
 									type="text"
 									value={searchTask}
 									onChange={(e) => setSearchTask(e.target.value)}
@@ -164,6 +192,12 @@ export const App = () => {
 							onClose={() => setIsModalConfirmOpen(false)}
 							onConfirm={() => onConfirmDeleteTask(idToDelete)}
 							titleConfirmModal="Вы уверены, что хотите удалить эту задачу?"
+						/>
+						<ConfirmModal
+							isOpen={isModalConfirmDeleteAllOpen}
+							onClose={() => setIsModalConfirmDeleteAllOpen(false)}
+							onConfirm={() => confirmedDeleteAll()}
+							titleConfirmModal="Вы уверены, что хотите очистить список дел?"
 						/>
 					</div>
 				)}

@@ -2,45 +2,9 @@
   "todos": [
     {
       "userId": 1,
-      "title": "Реализовать функцию фильтрации по вводимому значению",
-      "completed": true,
-      "id": 3
-    },
-    {
-      "userId": 1,
-      "title": "Реализовать функцию поиска через debounce",
-      "completed": true,
-      "id": 8
-    },
-    {
-      "userId": 1,
-      "title": "Реализовать функцию сортировки",
+      "title": "useOptimistic повесить на события ",
       "completed": false,
-      "id": 9
-    },
-    {
-      "userId": 1,
-      "title": "тернарный мапинг",
-      "completed": false,
-      "id": 12
-    },
-    {
-      "userId": 1,
-      "title": "а",
-      "completed": false,
-      "id": 13
-    },
-    {
-      "userId": 1,
-      "title": "б",
-      "completed": false,
-      "id": 14
-    },
-    {
-      "userId": 1,
-      "title": "в",
-      "completed": false,
-      "id": 15
+      "id": 1
     }
   ]
 }
