@@ -3,7 +3,7 @@ import { TODOS_URL_JSON_SERVER } from '../../constants/constants';
 export const requestCompletedTaskTodoJsonServer = (id, completed) => {
 	const status = completed ? false : true;
 
-	fetch(`${TODOS_URL_JSON_SERVER}/${id}`, {
+	return fetch(`${TODOS_URL_JSON_SERVER}/${id}`, {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',

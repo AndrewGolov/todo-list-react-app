@@ -77,11 +77,10 @@ export const App = () => {
 					a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }),
 				)
 			: todosJsonServer;
-		const filterCompleted = sorted.toSorted((a, b) => a.completed - b.completed);
 
-		return searchTask && isSearchFieldOpen && filterCompleted
-			? filterCompleted.filter((item) => item.title.toLowerCase().includes(searchTask.toLowerCase()))
-			: filterCompleted;
+		return searchTask && isSearchFieldOpen
+			? sorted.filter((item) => item.title.toLowerCase().includes(searchTask.toLowerCase()))
+			: sorted;
 	};
 
 	const handleClearTodos = () => {
@@ -89,6 +88,7 @@ export const App = () => {
 	};
 
 	const confirmedDeleteAll = () => {
+		setIsSearchFieldOpen(false);
 		Promise.all(todosJsonServer.map((item) => fetch(`${TODOS_URL_JSON_SERVER}/${item.id}`, { method: 'DELETE' })))
 			.then(() => console.log('Все задачи удалены'))
 			.then(() => setRefreshList((prev) => !prev))

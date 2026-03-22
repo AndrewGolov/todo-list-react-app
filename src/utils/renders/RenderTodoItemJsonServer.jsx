@@ -4,7 +4,7 @@ import { ImBin, ImPencil2, ImCheckmark2, ImCheckmark } from 'react-icons/im';
 export const RenderTodoItemJsonServer = (
 	item,
 	handleDeleteTask,
-	CompletedTaskTodoJsonServer,
+	requestCompletedTaskTodoJsonServer,
 	setRefreshList,
 	handleEditTask,
 ) => {
@@ -31,7 +31,7 @@ export const RenderTodoItemJsonServer = (
 					}
 					type="button"
 					onClick={() => {
-						CompletedTaskTodoJsonServer(item.id, item.completed);
+						requestCompletedTaskTodoJsonServer(item.id, item.completed);
 						setRefreshList((prev) => !prev);
 					}}
 				/>
