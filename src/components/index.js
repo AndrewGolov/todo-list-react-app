@@ -5,3 +5,6 @@ export { Title } from './title/Title';
 export { PromptModal } from './modals/PromptModal/PromptModal';
 export { ConfirmModal } from './modals/ConfirmModal/ConfirmModal';
 export { Field } from './field/Field';
+export { FirebaseApp } from './FirebaseApp';
+export { JsonServerApp } from './JsonServerApp';
+export { PlaceholderTodosApp } from './PlaceholderTodosApp';

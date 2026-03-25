@@ -19,7 +19,7 @@ export const PromptModal = ({
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (title.trim()) {
-			onAction(title);
+			onAction({ title });
 			setTitle('');
 		}
 	};

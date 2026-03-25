@@ -1,10 +1,10 @@
 import styles from './Field.module.css';
 
-export const Field = ({ type, value, onChange, placeholder, ref }) => {
+export const Field = ({ type, value, onChange, placeholder, inpRef }) => {
 	return (
 		<div className={styles['field__wrapper']}>
 			<input
-				ref={ref}
+				ref={inpRef}
 				type={type}
 				value={value || ''}
 				onChange={onChange}

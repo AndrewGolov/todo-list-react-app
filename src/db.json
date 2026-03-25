@@ -2,33 +2,39 @@
   "todos": [
     {
       "userId": 1,
-      "title": "Задача 1 ",
-      "completed": false,
+      "title": "Рефакторинг Добавления новой задачи",
+      "completed": true,
       "id": 1
     },
     {
       "userId": 1,
-      "title": "Задача 2",
-      "completed": false,
+      "title": "Исправить функцию запрос удаления",
+      "completed": true,
       "id": 2
     },
     {
       "userId": 1,
-      "title": "Задача 3",
+      "title": "Рефакторинг редактирования",
       "completed": true,
       "id": 3
     },
     {
       "userId": 1,
-      "title": "задача 5 ",
-      "completed": false,
+      "title": "Тест поиска",
+      "completed": true,
       "id": 4
     },
     {
       "userId": 1,
-      "title": "задача 6 ",
-      "completed": false,
+      "title": "Тестироване сортировки",
+      "completed": true,
       "id": 5
+    },
+    {
+      "userId": 1,
+      "title": "Рефакторинг удаления всех Тудушек",
+      "completed": true,
+      "id": 6
     }
   ]
 }

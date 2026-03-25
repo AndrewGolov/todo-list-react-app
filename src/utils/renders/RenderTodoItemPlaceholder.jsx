@@ -1,7 +1,5 @@
-export const RenderTodoItemPlaceholder = (item) => {
-	return (
-		<>
-			<label htmlFor={`todo-${item.id}`}>{item.title}</label>
-		</>
-	);
-};
+export const RenderTodoItemPlaceholder = (item) => (
+	<>
+		<label htmlFor={`todo-${item.id}`}>{item.title}</label>
+	</>
+);
