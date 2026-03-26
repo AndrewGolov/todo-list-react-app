@@ -1,5 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-import { RenderTodoItem, RenderEditBtnBlock } from '../utils';
+import {
+	RenderTodoItem,
+	RenderEditBtnBlock,
+	requestAddTaskToDataBase,
+	requestCompletedTask,
+	requestDeleteTask,
+	requestEditTask,
+	requestClearTodos,
+} from '../utils';
 import { useRequestGetTodosFirbase } from '../hooks/use-request-get-todos-firebase';
 import { List, Loader, ConfirmModal, PromptModal, Field } from '.';
 import stylesTodoList from '../utils/styles/TodoList.module.css';
@@ -22,25 +30,27 @@ export const FirebaseApp = () => {
 		if (isSearchFieldOpen) searchFieldRef.current.focus();
 	}, [isSearchFieldOpen]);
 
-	const handleAddTask = () => {
-		setIsModalPromptOpen(false);
-	};
+	const handleRequestAddTask = ({ title }) =>
+		requestAddTaskToDataBase({ title, handeClosePromptModal: () => setIsModalPromptOpen(false) });
 
-	const handleDeleteTask = (id) => {
-		setIdToDelete(id);
+	const handleRequestCompleteTodos = ({ id, completed }) => requestCompletedTask({ id, completed });
+
+	const handleDeleteTask = ({ id }) => {
 		setIsModalConfirmOpen(true);
+		setIdToDelete(id);
 	};
 	const onConfirmDeleteTask = () => {
-		setIsModalConfirmOpen(false);
+		requestDeleteTask({ id: idToDelete, handleCloseConfirmModal: () => setIsModalConfirmOpen(false) });
 		setIdToDelete(null);
 	};
 
-	const handleEditTask = (id) => {
+	const handleEditTask = ({ id }) => {
 		setIdToEdit(id);
 		setIsModalEditPromptOpen(true);
 	};
-	const saveEditedTask = () => {
-		setIsModalEditPromptOpen(false);
+
+	const saveEditedTask = ({ title }) => {
+		requestEditTask({ id: idToEdit, title, handeCloseEditPromptModal: () => setIsModalEditPromptOpen(false) });
 		setIdToEdit(null);
 	};
 	const onCloseEditModal = () => {
@@ -69,6 +79,8 @@ export const FirebaseApp = () => {
 	const handleClearTodos = () => {
 		setIsModalConfirmDeleteAllOpen(true);
 	};
+	const handleAcceptedDeleteAllTodos = () =>
+		requestClearTodos({ handleCloseDeleteAllModal: () => setIsModalConfirmDeleteAllOpen(false) });
 
 	return (
 		<div className="component-list">
@@ -81,7 +93,9 @@ export const FirebaseApp = () => {
 						titleList="Тудушка Firebase"
 						listArr={getPrintArr()}
 						isLoading={isLoadingFirebase}
-						renderItem={(item) => RenderTodoItem(item, handleDeleteTask, handleEditTask)}
+						renderItem={(item) =>
+							RenderTodoItem({ item, handleRequestCompleteTodos, handleDeleteTask, handleEditTask })
+						}
 						emptyList="Список задач пуст"
 						style={stylesTodoList}
 					>
@@ -98,7 +112,7 @@ export const FirebaseApp = () => {
 						/>
 						{isSearchFieldOpen && (
 							<Field
-								ref={searchFieldRef}
+								inpRef={searchFieldRef}
 								type="text"
 								value={searchTask}
 								onChange={(e) => setSearchTask(e.target.value)}
@@ -113,7 +127,7 @@ export const FirebaseApp = () => {
 						submitText="Добавить"
 						isOpen={isModalPromptOpen}
 						onClose={() => setIsModalPromptOpen(false)}
-						onAction={handleAddTask}
+						onAction={handleRequestAddTask}
 						titleModal="Добавить задачу"
 						placeholder="Введите название задачи..."
 					/>
@@ -135,13 +149,13 @@ export const FirebaseApp = () => {
 					<ConfirmModal
 						isOpen={isModalConfirmOpen}
 						onClose={() => setIsModalConfirmOpen(false)}
-						onConfirm={() => onConfirmDeleteTask(idToDelete)}
+						onConfirm={() => onConfirmDeleteTask()}
 						titleConfirmModal="Вы уверены, что хотите удалить эту задачу?"
 					/>
 					<ConfirmModal
 						isOpen={isModalConfirmDeleteAllOpen}
 						onClose={() => setIsModalConfirmDeleteAllOpen(false)}
-						onConfirm={() => alert('Еще не реализовано')}
+						onConfirm={() => handleAcceptedDeleteAllTodos()}
 						titleConfirmModal="Вы уверены, что хотите очистить список дел?"
 					/>
 				</div>

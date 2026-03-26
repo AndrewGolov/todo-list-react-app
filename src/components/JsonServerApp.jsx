@@ -102,13 +102,11 @@ export const JsonServerApp = ({ linkServer }) => {
 	};
 
 	const confirmedDeleteAll = () => {
-		setIsSearchFieldOpen(false);
 		Promise.all(
 			todosJsonServer.map((item) => {
 				requestDeleteTaskTodoJsonServer({
 					link: linkServer,
 					id: item.id,
-					callRefreshList: () => setRefreshList((prev) => !prev),
 				});
 			}),
 		)
