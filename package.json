@@ -26,5 +26,17 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "vite": "^7.3.1"
-  }
+  },
+  "description": "1. Реализовать приложение на базе Create React App — страницу со списком дел (Todo list):",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndrewGolov/todo-list-react-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndrewGolov/todo-list-react-app/issues"
+  },
+  "homepage": "https://github.com/AndrewGolov/todo-list-react-app#readme"
 }
