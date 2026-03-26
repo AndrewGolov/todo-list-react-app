@@ -8,8 +8,6 @@ export const App = () => {
 	return (
 		<div>
 			<Title text="Todo Lists" sizeTitle={1} />
-			<PlaceholderTodosApp />
-			<JsonServerApp linkServer={TODOS_URL_JSON_SERVER} />
 			<FirebaseApp />
 		</div>
 	);
