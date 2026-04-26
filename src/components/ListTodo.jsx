@@ -1,6 +1,6 @@
 import { Title } from './title/Title';
 
-export const List = ({ style, titleList, listArr, renderItem, emptyList, children }) => (
+export const ListTodo = ({ style, titleList, listArr, renderItem, emptyList, children }) => (
 	<div className={style['list__wrapper']}>
 		<Title text={titleList} className={style['list__title']} />
 		{children}

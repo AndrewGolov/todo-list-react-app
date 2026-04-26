@@ -1,7 +1,7 @@
 import stylesTodoList from '../utils/styles/TodoList.module.css';
 import { RenderTodoItemPlaceholder } from '../utils';
 import { useRequestGetTodos } from '../hooks';
-import { List, Loader } from '../components';
+import { ListTodo, Loader } from '../components';
 
 export const PlaceholderTodosApp = () => {
 	const { todos, isLoading } = useRequestGetTodos();
@@ -10,7 +10,7 @@ export const PlaceholderTodosApp = () => {
 			{isLoading ? (
 				<Loader />
 			) : (
-				<List
+				<ListTodo
 					name="todos"
 					titleList="Тудушка Json Placeholder "
 					listArr={todos}

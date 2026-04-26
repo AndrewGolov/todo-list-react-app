@@ -57,7 +57,7 @@ export const requestDeleteTaskTodoJsonServer = ({ link, id, callRefreshList }) =
 			return response.json();
 		})
 		.then(() => console.log('Задача УДАЛЕНА'))
-		.then(() => callRefreshList())
+		.then(() => callRefreshList?.())
 		.catch((error) => console.error('Ошибка при УДАЛЕНИИ задачи', error));
 };
 

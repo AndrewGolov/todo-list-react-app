@@ -2,5 +2,6 @@ export * from './normalizeData';
 export * from './requests/requests-todo-json-server';
 export * from './requests/requests-todos-firebase-server';
 export * from './renders/RenderTodoItemPlaceholder';
-export * from './renders/RenderTodoItem';
-export * from './renders/RenderEditBtnBlock';
+
+export * from './filteredSearchArr';
+export * from './SortedArrTodos';
